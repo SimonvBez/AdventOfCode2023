@@ -12,3 +12,13 @@ std::ifstream open_input(int day) {
 
 	return input_stream;
 }
+
+
+std::vector<std::string> read_lines(std::ifstream& file_in) {
+	std::vector<std::string> result;
+	std::string line;
+	while (std::getline(file_in, line)) {
+		result.push_back(line);
+	}
+	return result;
+}

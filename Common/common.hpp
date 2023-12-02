@@ -5,6 +5,8 @@
 
 std::ifstream open_input(int day);
 
+std::vector<std::string> read_lines(std::ifstream& file);
+
 class Stopwatch {
 private:
 	std::chrono::steady_clock::time_point tbegin;
