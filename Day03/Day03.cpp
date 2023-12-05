@@ -108,10 +108,9 @@ int main() {
             if (digit_begin >= line_end) {
                 break; // No more part numbers were found on this line
             }
-            const char* digit_end = std::find_if_not(digit_begin + 1, line_end, isdigit); // Get end of part number
 
             int part_number;
-            std::from_chars(digit_begin, digit_end, part_number); // Read the part number
+            const char* digit_end = std::from_chars(digit_begin, line_end, part_number).ptr; // Read the part number
 
             int number_length = (int)(digit_end - digit_begin); // The amount of characters the number takes up
             int begin_i = (int)(digit_begin - current_line.c_str()); // Begin index of the number in the line

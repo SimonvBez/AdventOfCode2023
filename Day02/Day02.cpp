@@ -19,14 +19,14 @@ int main() {
         int min_red = 0;
         int min_green = 0;
         int min_blue = 0;
-        size_t number_start_i = line.find(": ", 6) + 2; // Move over the ": " to get to the start of the first block number
-        size_t number_end_i;
-        while (true) {
-            number_end_i = line.find(' ', number_start_i); // Find the end of the block number
+        const char* line_end = line.c_str() + line.size();
+        const char* number_start = std::find(line.c_str() + 5, line_end, ' ') + 1; // Move over the second ' ' to get to the start of the first block number
+        while (number_start < line_end) {
             int number;
-            std::from_chars(line.data() + number_start_i, line.data() + number_end_i, number); // Read the number of blocks
+            const char* number_end = std::from_chars(number_start, line_end, number).ptr; // Read the number of blocks
+            const char* color_start = number_end + 1;
 
-            char color = line[number_end_i + 1]; // Get the first char of the color, 'r', 'g' or 'b'
+            char color = *color_start; // Get the first char of the color, 'r', 'g' or 'b'
             int max_possible;
             // Set the max possible blocks of this color, and set the minimum amount of blocks that is at least in the bag
             switch (color) {
@@ -48,13 +48,7 @@ int main() {
                 game_is_possible = false;
             }
 
-            number_start_i = line.find(' ', number_end_i + 1); // Find the ' ' before the start of the next number
-            if (number_start_i == std::string::npos) {
-                break; // End of this line
-            }
-            else {
-                number_start_i++; // Set to the start of the next number
-            }
+            number_start = std::find(color_start, line_end, ' ') + 1;  // Find the ' ' before the start of the next number, then +1 to get to the number
         }
 
         if (game_is_possible) {
