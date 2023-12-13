@@ -18,7 +18,7 @@ private:
 
 public:
 	Array2D(size_t height, size_t width): _height(height), _width(width), _length(height * width) {
-		_data = new T[height * width];
+		_data = new T[_length];
 	}
 
 	Array2D() : _data(nullptr) {}
@@ -27,6 +27,16 @@ public:
 		if (_data) {
 			delete[] _data;
 		}
+	}
+
+	void set_size(size_t height, size_t width) {
+		if (_data) {
+			delete[] _data;
+		}
+		_height = height;
+		_width = width;
+		_length = height * width;
+		_data = new T[_length];
 	}
 
 	T get(size_t y, size_t x) {
