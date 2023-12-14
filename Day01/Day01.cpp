@@ -9,6 +9,7 @@
 
 int main() {
     std::ifstream file_in = open_input(1);
+    Stopwatch sw;
 
     std::vector<std::string> written_digits{ "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" };
 
@@ -44,7 +45,9 @@ int main() {
         }
         part2_sum += first_digit * 10 + last_digit;
     }
+    sw.stop();
 
     std::cout << "Part 1: " << part1_sum << std::endl;
     std::cout << "Part 2: " << part2_sum << std::endl;
+    std::cout << "Took " << sw.get_us() << " us" << std::endl;
 }

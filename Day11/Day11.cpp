@@ -51,6 +51,7 @@ uint64_t get_galaxy_distance_sum(std::vector<position>& galaxies) {
 
 int main() {
     std::ifstream file_in = open_input(11);
+    Stopwatch sw;
 
     // Parse the galaxy locations
     std::vector<position> galaxies;
@@ -77,7 +78,9 @@ int main() {
     // Expand the space again. 499,999 is used to account for the previous expansion
     expand_galaxies(galaxies, max_y, max_x, 499'999);
     uint64_t distance_sum_2 = get_galaxy_distance_sum(galaxies);
+    sw.stop();
 
     std::cout << "Part 1: " << distance_sum_1 << std::endl;
     std::cout << "Part 2: " << distance_sum_2 << std::endl;
+    std::cout << "Took " << sw.get_us() << " us" << std::endl;
 }

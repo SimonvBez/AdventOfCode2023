@@ -11,6 +11,7 @@ int rminus(int left, int right) {
 
 int main() {
     std::ifstream file_in = open_input(9);
+    Stopwatch sw;
 
     int extrapolated_future_sum = 0;
     int extrapolated_history_sum = 0;
@@ -28,14 +29,14 @@ int main() {
         }
 
         // Derive the numbers until they are all 0
-        int original_size = numbers.size();
+        size_t original_size = numbers.size();
         int levels = 0;
         bool is_all_zero;
         do {
             levels++;
             is_all_zero = true;
             numbers.push_back(numbers[original_size-1]); // Remember the previous last number for the next step
-            for (int i = original_size-1; i >= levels; --i) {
+            for (size_t i = original_size-1; i >= levels; --i) {
                 numbers[i] = numbers[i] - numbers[i - 1];
                 if (numbers[i]) {
                     is_all_zero = false;
@@ -46,7 +47,9 @@ int main() {
         extrapolated_future_sum += std::reduce(numbers.end() - levels, numbers.end()); // Sum up the last numbers of each seqence
         extrapolated_history_sum += std::accumulate(numbers.rend() - levels, numbers.rend(), 0, rminus); // Subtract the first numbers of each sequence with the previous history
     }
+    sw.stop();
 
     std::cout << "Part 1: " << extrapolated_future_sum << std::endl;
     std::cout << "Part 2: " << extrapolated_history_sum << std::endl;
+    std::cout << "Took " << sw.get_us() << " us" << std::endl;
 }

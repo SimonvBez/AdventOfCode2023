@@ -21,6 +21,7 @@ int parse_num(std::string& line, int start, int i) {
 
 int main() {
     std::ifstream file_in = open_input(4);
+    Stopwatch sw;
 
     int point_sum = 0;
     int total_scratchcards = 0;
@@ -59,7 +60,9 @@ int main() {
         point_sum += points;
         game++;
     }
+    sw.stop();
 
     std::cout << "Part 1: " << point_sum << std::endl;
     std::cout << "Part 2: " << total_scratchcards << std::endl;
+    std::cout << "Took " << sw.get_us() << " us" << std::endl;
 }

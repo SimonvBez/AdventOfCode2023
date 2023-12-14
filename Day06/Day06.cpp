@@ -11,7 +11,7 @@ bool is_not_space(char c) {
 int calculate_possible_wins(uint64_t race_time, uint64_t distance_record) {
     double hold_time_low = (race_time - sqrt(race_time * race_time - 4 * distance_record)) / 2;
     double minimum_hold_time = floor(hold_time_low) + 1;
-    return (race_time / 2.0 - minimum_hold_time) * 2 + 1;
+    return (int)((race_time / 2.0 - minimum_hold_time) * 2) + 1;
 }
 
 
@@ -26,6 +26,7 @@ uint64_t pow_10(size_t exp) {
 
 int main() {
     std::ifstream file_in = open_input(6);
+    Stopwatch sw;
 
     const int race_count = 4;
     int race_times[race_count];
@@ -59,7 +60,9 @@ int main() {
         ways_product *= calculate_possible_wins(race_times[i], distance_records[i]);
     }
     int part2_ways = calculate_possible_wins(part2_race_time, part2_distance_record);
+    sw.stop();
 
     std::cout << "Part 1: " << ways_product << std::endl;
     std::cout << "Part 2: " << part2_ways << std::endl;
+    std::cout << "Took " << sw.get_us() << " us" << std::endl;
 }

@@ -70,6 +70,7 @@ void find_mirror(std::vector<uint32_t>& bitmasks, uint32_t& clean_mirror, uint32
 
 int main() {
     std::ifstream file_in = open_input(13);
+    Stopwatch sw;
 
     uint32_t summary_clean = 0;
     uint32_t summary_smudged = 0;
@@ -110,7 +111,9 @@ int main() {
         row_bitmasks.clear();
         col_bitmasks.clear();
     }
+    sw.stop();
 
     std::cout << "Part 1: " << summary_clean << std::endl;
     std::cout << "Part 2: " << summary_smudged << std::endl;
+    std::cout << "Took " << sw.get_us() << " us" << std::endl;
 }

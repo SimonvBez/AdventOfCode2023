@@ -88,6 +88,7 @@ bool check_for_adjacent_symbols(
 
 int main() {
     std::ifstream file_in = open_input(3);
+    Stopwatch sw;
 
     std::string previous_line;
     std::string current_line;
@@ -149,7 +150,9 @@ int main() {
             gear_ratio_sum += gear.number;
         }
     }
+    sw.stop();
 
     std::cout << "Part 1: " << part_number_sum << std::endl;
     std::cout << "Part 2: " << gear_ratio_sum << std::endl;
+    std::cout << "Took " << sw.get_us() << " us" << std::endl;
 }

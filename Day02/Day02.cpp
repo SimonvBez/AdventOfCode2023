@@ -4,6 +4,7 @@
 
 int main() {
     std::ifstream file_in = open_input(2);
+    Stopwatch sw;
 
     // Maximum number of blocks for a game to be possible
     int red_max_possible = 12;
@@ -57,7 +58,9 @@ int main() {
         power_sum += min_red * min_green * min_blue;
         game_id++;
     }
+    sw.stop();
 
     std::cout << "Part 1: " << id_sum << std::endl;
     std::cout << "Part 2: " << power_sum << std::endl;
+    std::cout << "Took " << sw.get_us() << " us" << std::endl;
 }

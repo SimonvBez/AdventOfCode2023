@@ -79,6 +79,8 @@ private:
 	std::chrono::steady_clock::time_point tend;
 
 public:
+	Stopwatch() : tbegin(std::chrono::high_resolution_clock::now()) {}
+
 	void start() {
 		tbegin = std::chrono::high_resolution_clock::now();
 	}

@@ -2,7 +2,6 @@
 #include <algorithm>
 #include <vector>
 #include <unordered_map>
-#include <unordered_set>
 #include <numeric>
 #include "common.hpp"
 
@@ -15,6 +14,7 @@ struct Node {
 
 int main() {
     std::ifstream file_in = open_input(8);
+    Stopwatch sw;
 
     std::string instructions;
     std::getline(file_in, instructions);
@@ -26,9 +26,8 @@ int main() {
     // Read all the nodes, and store them in a map so the index can be looked up later
     int line_counter = 0;
     for (std::string& line : lines) {
-        const char* line_end = line.c_str() + line.size();
-        const char* node_end = std::find(line.c_str(), line_end, ' ');
-        std::string node_name = std::string(line.c_str(), node_end);
+        size_t node_end = line.find(' ');
+        std::string node_name = line.substr(0, node_end);
         node_to_index_map.emplace(std::move(node_name), line_counter);
         line_counter++;
     }
@@ -37,13 +36,12 @@ int main() {
     std::vector<Node> network(node_to_index_map.size());
     line_counter = 0;
     for (std::string& line : lines) {
-        const char* line_end = line.c_str() + line.size();
-        const char* node_left_begin = std::find(line.c_str(), line_end, '(') + 1;
-        const char* node_left_end = std::find(node_left_begin, line_end, ',');
-        int left_i = node_to_index_map[std::string(node_left_begin, node_left_end)];
-        const char* node_right_begin = node_left_end + 2;
-        const char* node_right_end = line_end - 1;
-        int right_i = node_to_index_map[std::string(node_right_begin, node_right_end)];
+        size_t node_left_begin = line.find('(') + 1;
+        size_t node_left_end = line.find(',', node_left_begin);
+        int left_i = node_to_index_map[line.substr(node_left_begin, node_left_end - node_left_begin)];
+        size_t node_right_begin = node_left_end + 2;
+        size_t node_right_end = line.size() - 1;
+        int right_i = node_to_index_map[line.substr(node_right_begin, node_right_end - node_right_begin)];
         network[line_counter].left_i = left_i;
         network[line_counter].right_i = right_i;
         line_counter++;
@@ -66,13 +64,13 @@ int main() {
     // Solve part 2
     // Get all start and end positions
     std::vector<int> start_positions;
-    std::unordered_set<int> target_positions;
+    std::vector<int> target_positions;
     for (const auto& [name, index] : node_to_index_map) {
         if (name.back() == 'A') {
             start_positions.push_back(index);
         }
         else if (name.back() == 'Z') {
-            target_positions.insert(index);
+            target_positions.push_back(index);
         }
     }
 
@@ -82,7 +80,7 @@ int main() {
         int step = 0;
         while (true) {
             bool is_left = instructions[step % instructions.size()] == 'L';
-            if (target_positions.contains(current_position)) {
+            if (std::find(target_positions.begin(), target_positions.end(), current_position) != target_positions.end()) {
                 cycles.push_back(step);
                 break;
             }
@@ -127,7 +125,9 @@ int main() {
     // Get the product of all the shrunk cycle lengths, to get the first step number where all ghosts are on an end node
     uint64_t common_multiple = std::accumulate(cycles.begin(), cycles.end(), 1ULL, std::multiplies());
     common_multiple *= common_divisor;
+    sw.stop();
 
     std::cout << "Part 1: " << step_part1 << std::endl;
     std::cout << "Part 2: " << common_multiple << std::endl;
+    std::cout << "Took " << sw.get_us() << " us" << std::endl;
 }

@@ -120,6 +120,7 @@ private:
 
 int main() {
     std::ifstream file_in = open_input(7);
+    Stopwatch sw;
 
     std::vector<Hand> hands;
     std::string line;
@@ -138,7 +139,9 @@ int main() {
     for (int i = 0; i < hands.size(); ++i) {
         total_winnings_part2 += hands[i].get_bet() * (i + 1);
     }
+    sw.stop();
 
     std::cout << "Part 1: " << total_winnings_part1 << std::endl;
     std::cout << "Part 2: " << total_winnings_part2 << std::endl;
+    std::cout << "Took " << sw.get_us() << " us" << std::endl;
 }

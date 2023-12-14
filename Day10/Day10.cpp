@@ -230,13 +230,16 @@ public:
 
 int main() {
     std::ifstream file_in = open_input(10);
+    Stopwatch sw;
 
     std::vector<std::string> lines = read_lines(file_in);
     PipeMap pipe_map(lines);
 
     int farthest_distance = pipe_map.get_pipe_length() / 2;
     int enclosed_count = pipe_map.get_enclosed_count();
+    sw.stop();
 
     std::cout << "Part 1: " << farthest_distance << std::endl;
     std::cout << "Part 2: " << enclosed_count << std::endl;
+    std::cout << "Took " << sw.get_us() << " us" << std::endl;
 }

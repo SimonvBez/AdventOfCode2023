@@ -158,6 +158,7 @@ public:
 
 int main() {
     std::ifstream file_in = open_input(12);
+    Stopwatch sw;
 
     std::vector<SpringRow> spring_rows;
     std::string line;
@@ -172,7 +173,9 @@ int main() {
         row.unfold();
         arrangement_sum2 += row.get_arrangement_count();
     }
+    sw.stop();
 
     std::cout << "Part 1: " << arrangement_sum1 << std::endl;
     std::cout << "Part 2: " << arrangement_sum2 << std::endl;
+    std::cout << "Took " << sw.get_ms() << " ms" << std::endl;
 }

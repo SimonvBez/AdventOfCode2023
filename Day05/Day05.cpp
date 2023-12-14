@@ -135,6 +135,7 @@ public:
 
 int main() {
     std::ifstream file_in = open_input(5);
+    Stopwatch sw;
 
     std::vector<uint64_t> values;
     std::string line;
@@ -174,7 +175,9 @@ int main() {
         part1_solver.end_conversion();
         part2_solver.end_conversion();
     }
+    sw.stop();
     
     std::cout << "Part 1: " << part1_solver.get_minimum() << std::endl;
     std::cout << "Part 2: " << part2_solver.get_minimum() << std::endl;
+    std::cout << "Took " << sw.get_us() << " us" << std::endl;
 }
