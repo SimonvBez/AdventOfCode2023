@@ -12,7 +12,7 @@ struct position {
 
 void expand_galaxies(std::vector<position>& galaxies, uint32_t& max_y, uint32_t& max_x, uint32_t expansion_amount) {
     for (uint32_t y = 0; y < max_y; ++y) {
-        if (std::find_if(galaxies.begin(), galaxies.end(), [y](position galaxy) { return galaxy.y == y; }) == galaxies.end()) {
+        if (std::none_of(galaxies.begin(), galaxies.end(), [y](position galaxy) { return galaxy.y == y; })) {
             // This row does not have any galaxies
             for (position& galaxy : galaxies) {
                 if (galaxy.y > y) {
@@ -24,7 +24,7 @@ void expand_galaxies(std::vector<position>& galaxies, uint32_t& max_y, uint32_t&
         }
     }
     for (uint32_t x = 0; x < max_x; ++x) {
-        if (std::find_if(galaxies.begin(), galaxies.end(), [x](position galaxy) { return galaxy.x == x; }) == galaxies.end()) {
+        if (std::none_of(galaxies.begin(), galaxies.end(), [x](position galaxy) { return galaxy.x == x; })) {
             // This column does not have any galaxies
             for (position& galaxy : galaxies) {
                 if (galaxy.x > x) {
